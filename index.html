@@ -995,7 +995,7 @@
         <div class="label">お客様名<span class="required">必須</span></div>
         <input type="text" id="name" placeholder="お名前を入力してください" oninput="saveInput('name')">
 
-        <div class="label">電話番号<span class="required">必須</span></div>
+        <div class="labeltyuuou">電話番号</div>
         <input type="tel" id="phone" placeholder="電話番号を入力してください" oninput="saveInput('phone')">
 
         <div class="label">ご来店回数<span class="required">必須</span></div>
@@ -1650,11 +1650,6 @@ function submitForm() {
         return;
     }
 
-    if (!formData.phone) {
-        alert('電話番号を入力してください。');
-        return;
-    }
-
     if (!formData.selectedSymptom) {
         alert('メニューを選択してください。');
         return;
@@ -1815,6 +1810,15 @@ function submitForm() {
                         continue;
                     }
 
+// 2か月以降は✕
+const twoMonthsLater = new Date(now);
+twoMonthsLater.setMonth(now.getMonth() + 2);
+if (slotStart > twoMonthsLater) {
+    cell.textContent = '✕';
+    cell.classList.add('unavailable');
+    continue;
+}
+                    
                     // 過去の時間は✕
                     if (slotStart < now) {
                         cell.textContent = '✕';
